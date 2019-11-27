@@ -28,7 +28,7 @@ import {
 } from './styles';
 import colors from '../../styles/colors';
 
-function Cart({ products, total }) {
+function Cart({ products, total, dispatch }) {
   return (
     <Container>
       {products.length ? (
@@ -42,7 +42,11 @@ function Cart({ products, total }) {
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.priceFormatted}</ProductPrice>
                   </ProductDetailed>
-                  <ProductDeletion>
+                  <ProductDeletion
+                    onPress={() =>
+                      dispatch({ type: 'REMOVE_FROM_CART', id: product.id })
+                    }
+                  >
                     <Icon
                       name="delete-forever"
                       size={24}
