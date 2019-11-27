@@ -17,8 +17,6 @@ function Header({ navigation, cartSize }) {
     navigation: PropTypes.shape().isRequired,
   };
 
-  console.tron.log('NAVIGATION', navigation);
-
   return (
     <Container>
       <LogoContainer onPress={() => navigation.navigate('Main')}>
