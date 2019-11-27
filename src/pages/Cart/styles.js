@@ -87,3 +87,14 @@ export const TotalAmount = styled.Text`
   margin-top: 5px;
   margin-bottom: 30px;
 `;
+
+export const EmptyCart = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const EmptyCartText = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 18px;
+`;
