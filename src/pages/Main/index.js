@@ -42,24 +42,24 @@ class Main extends React.Component {
     this.setState({ products: data });
   };
 
-  handleAddProduct = item => {
-    const { addToCart } = this.props;
+  handleAddProduct = id => {
+    const { addToCartRequest } = this.props;
 
-    addToCart(item);
+    addToCartRequest(id);
   };
 
   renderProduct = ({ item }) => {
-    // const { amount } = this.props;
+    const { amount } = this.props;
 
     return (
       <Product key={item}>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
         <ProductPrice>{formatPrice(item.price)}</ProductPrice>
-        <AddButton onPress={() => this.handleAddProduct(item)}>
+        <AddButton onPress={() => this.handleAddProduct(item.id)}>
           <ProductAmount>
             <Icon name="add-shopping-cart" color="#FFF" size={20} />
-            <ProductAmountText>2</ProductAmountText>
+            <ProductAmountText>{amount[item.id] || 0}</ProductAmountText>
           </ProductAmount>
           <AddButtonText>ADICIONAR</AddButtonText>
         </AddButton>
@@ -84,9 +84,17 @@ class Main extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, item) => {
+    amount[item.id] = item.amount;
+
+    return amount;
+  }, {}),
+});
+
 // Converte actions em propriedades do componente
 // Dessa maneira é possível acessar actions (ex: addToCart). Ex: const { addToCart } = this.props;
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
