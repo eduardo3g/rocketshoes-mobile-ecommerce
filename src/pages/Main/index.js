@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { FlatList } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../../services/api';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 import {
   Container,
@@ -40,12 +43,9 @@ class Main extends React.Component {
   };
 
   handleAddProduct = item => {
-    const { dispatch } = this.props;
+    const { addToCart } = this.props;
 
-    dispatch({
-      type: 'ADD_TO_CART',
-      item,
-    });
+    addToCart(item);
   };
 
   renderProduct = ({ item }) => {
@@ -84,4 +84,9 @@ class Main extends React.Component {
   }
 }
 
-export default connect()(Main);
+// Converte actions em propriedades do componente
+// Dessa maneira é possível acessar actions (ex: addToCart). Ex: const { addToCart } = this.props;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Main);
