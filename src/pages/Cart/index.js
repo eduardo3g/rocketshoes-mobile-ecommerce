@@ -32,7 +32,15 @@ import {
 } from './styles';
 import colors from '../../styles/colors';
 
-function Cart({ products, total, removeFromCart }) {
+function Cart({ products, total, removeFromCart, updateAmount }) {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
+
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   return (
     <Container>
       {products.length ? (
@@ -60,6 +68,7 @@ function Cart({ products, total, removeFromCart }) {
                       name="remove-circle-outline"
                       size={20}
                       color={colors.primary}
+                      onPress={() => decrement(product)}
                     />
                   </ProductControlButton>
                   <ProductAmount value={String(product.amount)} />
@@ -68,6 +77,7 @@ function Cart({ products, total, removeFromCart }) {
                       name="add-circle-outline"
                       size={20}
                       color={colors.primary}
+                      onPress={() => increment(product)}
                     />
                   </ProductControlButton>
                   <ProductSubtotal>{product.subtotal}</ProductSubtotal>
